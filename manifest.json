@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "assigned-companies",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "title": "Assigned Companies",
   "mustUpdateAt": "2019-10-01",
   "categories": [],
