@@ -1,0 +1,8 @@
+{
+  "profile-display-container > my-account-page": [
+    "my-account-page.assigned-companies-btn"
+  ],
+  "my-account-pages > my-account-page": [
+    "my-account-page.assigned-companies"
+  ]
+}

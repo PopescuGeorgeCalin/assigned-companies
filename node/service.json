@@ -1,0 +1,14 @@
+{
+  "stack": "nodejs",
+  "memory": 1024,
+  "runtimeArgs": [
+    "--optimize_for_size",
+    "--max_old_space_size=48"
+  ],
+  "routes": {
+    "assignedCompanies": {
+      "path": "/_v/getAssignedCompanies",
+      "public": true
+    }
+  }
+}

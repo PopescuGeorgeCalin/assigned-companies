@@ -1,0 +1,8 @@
+{
+  "my-account-page.assigned-companies": {
+    "component": "AssignedCompanies"
+  },
+  "my-account-page.assigned-companies-btn": {
+    "component": "AssignedCompaniesBtn"
+  }
+}
