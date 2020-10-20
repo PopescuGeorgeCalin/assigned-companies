@@ -127,7 +127,6 @@ class AssignedCompanies extends Component {
   }
 
   render() {
-    console.log("CEAPAA");
     return <Table
       schema={getJsonSchema(this.state.schema)}
       items={this.state.slicedData}
