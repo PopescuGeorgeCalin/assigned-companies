@@ -1,8 +1,8 @@
 {
   "vendor": "vtex",
-  "name": "assignee-app",
+  "name": "assigned-companies",
   "version": "0.0.0",
-  "title": "Assignee app",
+  "title": "Assigned Companies",
   "mustUpdateAt": "2019-10-01",
   "categories": [],
   "defaultLocale": "ro-RO",
