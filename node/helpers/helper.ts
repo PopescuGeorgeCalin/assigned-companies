@@ -7,14 +7,15 @@ export const getSettings = async (ctx: any) => {
 };
 
 export const getAssignedCompanies = async (ctx: any, settings: any, email: string) => {
-  const fields = [
-    ...settings.fields,
-    ...settings.urlFields.map((field: any) => field.name),
+  const { fields = [], urlFields = [] } = settings;
+  const allFields = [
+    ...fields,
+    ...urlFields.map((field: any) => field.name),
   ];
   const {clients: {masterdata}} = ctx;
   return masterdata.searchDocuments({
     dataEntity: settings.dataentityName,
-    fields: fields,
+    fields: allFields,
     where: `email=\"${email}\"`,
     pagination: {
       page: 1,

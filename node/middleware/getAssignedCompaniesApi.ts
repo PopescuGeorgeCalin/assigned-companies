@@ -15,7 +15,7 @@ export async function getAssignedCompaniesApi(ctx: any) {
     }
 
     const settings = await getSettings(ctx);
-
+    const { fields = [], urlFields = []} = settings;
     const companies = await getAssignedCompanies(ctx, settings, profile?.email?.value);
 
     const schemaData = (await getAssignedCompaniesSchemaV2(ctx, settings))
@@ -23,13 +23,13 @@ export async function getAssignedCompaniesApi(ctx: any) {
 
     const { schema: { properties } } = schemaData;
 
-    const schemaFromDataEntity = settings.fields.filter((key: string) => key in properties)
+    const schemaFromDataEntity = fields.filter((key: string) => key in properties)
     .reduce((oldObject: any, key: string) => ({
         ...oldObject,
         [key]: properties[key]
     }), {});
 
-    const urlFields = settings.urlFields.reduce((oldObject: any, field: any) => {
+    const _urlFields = urlFields.reduce((oldObject: any, field: any) => {
       return {
         ...oldObject,
         [field.name]: {
@@ -43,7 +43,7 @@ export async function getAssignedCompaniesApi(ctx: any) {
       companies,
       schema: {
         ...schemaFromDataEntity,
-        ...urlFields,
+        ..._urlFields,
       }
     };
     ctx.response.status = 200;

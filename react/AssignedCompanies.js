@@ -142,6 +142,7 @@ class AssignedCompanies extends Component {
         totalItems: this.state.companys.length,
         rowsOptions: [5, 10, 15, 25],
       }}
+      fullWidth={true}
     />
   }
 }
