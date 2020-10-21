@@ -71,7 +71,7 @@ class AssignedCompanies extends Component {
     super(props);
 
     this.state = {
-      companys: [],
+      companies: [],
       schema: {},
       tableLength: 5,
       currentPage: 1,
@@ -90,10 +90,10 @@ class AssignedCompanies extends Component {
       url: "/_v/getAssignedCompanies",
       method: 'get'
     }).then(response => {
-      const companys = response.data?.companys || [];
+      const companies = response.data?.companies || [];
       this.setState({
-        companys,
-        slicedData: (companys).slice(0, this.state.tableLength),
+        companies,
+        slicedData: (companies).slice(0, this.state.tableLength),
         schema: response.data?.schema || {},
       });
     }).catch(console.error);
@@ -104,7 +104,7 @@ class AssignedCompanies extends Component {
     const newPage = this.state.currentPage + 1
     const itemFrom = this.state.currentItemTo + 1
     const itemTo = this.state.tableLength * newPage
-    const data = this.state.companys.slice(itemFrom - 1, itemTo)
+    const data = this.state.companies.slice(itemFrom - 1, itemTo)
     this.goToPage(newPage, itemFrom, itemTo, data)
   }
 
@@ -113,7 +113,7 @@ class AssignedCompanies extends Component {
     const newPage = this.state.currentPage - 1
     const itemFrom = this.state.currentItemFrom - this.state.tableLength
     const itemTo = this.state.currentItemFrom - 1
-    const data = this.state.companys.slice(itemFrom - 1, itemTo)
+    const data = this.state.companies.slice(itemFrom - 1, itemTo)
     this.goToPage(newPage, itemFrom, itemTo, data)
   }
 
@@ -138,7 +138,7 @@ class AssignedCompanies extends Component {
         currentItemTo: this.state.currentItemTo,
         textShowRows: <FormattedMessage id="store/assignedCompanies.showRows"/>,
         textOf: <FormattedMessage id="store/assignedCompanies.of"/>,
-        totalItems: this.state.companys.length,
+        totalItems: this.state.companies.length,
         rowsOptions: [5, 10, 15, 25],
       }}
       fullWidth={true}
