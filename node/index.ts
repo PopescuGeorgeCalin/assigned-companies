@@ -1,12 +1,11 @@
-import {getAssignedCompaniesApi} from "./middleware/getAssignedCompaniesApi";
-import {ClientsConfig, IOClients, LRUCache, method, Service} from "@vtex/api";
+import { getAssignedCompaniesApi } from './middleware/getAssignedCompaniesApi'
+import { ClientsConfig, IOClients, LRUCache, method, Service } from '@vtex/api'
 
-
-const TIMEOUT_MS = 800;
+const TIMEOUT_MS = 800
 
 // Create a LRU memory cache for the Status client.
 // The @vtex/api HttpClient respects Cache-Control headers and uses the provided cache.
-const memoryCache = new LRUCache<string, any>({ max: 5000 });
+const memoryCache = new LRUCache<string, any>({ max: 5000 })
 
 // This is the configuration for clients available in `ctx.clients`.
 const clients: ClientsConfig<IOClients> = {
@@ -23,12 +22,12 @@ const clients: ClientsConfig<IOClients> = {
       memoryCache,
     },
   },
-};
+}
 export default new Service({
   clients,
   routes: {
     assignedCompanies: method({
       GET: [getAssignedCompaniesApi],
-    })
-  }
+    }),
+  },
 })

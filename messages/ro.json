@@ -1,8 +1,8 @@
 {
+  "store/assignedCompanies.link": "Companiile mele",
   "store/assignedCompanies.emptyStateLabel": "Fără date",
   "store/assignedCompanies.showRows": "Arată randuri",
   "store/assignedCompanies.yesLabel": "Da",
   "store/assignedCompanies.noLabel": "Nu",
-  "store/assignedCompanies.assignedCompaniesBtn": "Agenți de Vânzări",
   "store/assignedCompanies.of": "din"
 }

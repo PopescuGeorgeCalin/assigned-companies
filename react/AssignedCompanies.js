@@ -1,104 +1,113 @@
-import React, {Component, Fragment} from 'react'
+import React, { Component } from 'react'
 import axios from 'axios'
-import moment from "moment";
-import {Route} from "react-router-dom";
-import {FormattedMessage} from 'react-intl';
-import {Table} from 'vtex.styleguide'
+import moment from 'moment'
+import { FormattedMessage } from 'react-intl'
+import { Table } from 'vtex.styleguide'
+import {
+  // @ts-ignore
+  ContentWrapper,
+} from 'vtex.my-account-commons'
 
 const formatCompanyValue = (properties, companyValue) => {
   if (!companyValue) {
     return <span></span>
   }
 
-  let content = companyValue;
+  let content = companyValue
   switch (properties.type) {
-    case "string": {
+    case 'string': {
       switch (properties.format) {
-        case "date-time": {
+        case 'date-time': {
           //TODO: determine proper format
-          content = moment(companyValue).format();
-          break;
+          content = moment(companyValue).format()
+          break
         }
         default: {
-          content = companyValue;
-          break;
+          content = companyValue
+          break
         }
       }
-      break;
+      break
     }
-    case "number": {
-      content = companyValue.toFixed(2);
-      break;
+    case 'number': {
+      content = companyValue.toFixed(2)
+      break
     }
-    case "boolean": {
-      content = companyValue ? <FormattedMessage id="store/assignedCompanies.yesLabel"/> : <FormattedMessage id="store/assignedCompanies.noLabel"/>;
-      break;
+    case 'boolean': {
+      content = companyValue ? (
+        <FormattedMessage id="store/assignedCompanies.yesLabel" />
+      ) : (
+        <FormattedMessage id="store/assignedCompanies.noLabel" />
+      )
+      break
     }
-    case "url": {
-      content = <a href={companyValue}>Link</a>;
-      break;
+    case 'url': {
+      content = <a href={companyValue}>Link</a>
+      break
     }
-    default : {
+    default: {
       content = companyValue
     }
   }
 
   return <span className="dib oo-table-content tb-1">{content}</span>
+}
 
-};
-
-const getJsonSchema = (schema) => {
-  const schemaProperties = Object.keys(schema);
+const getJsonSchema = schema => {
+  const schemaProperties = Object.keys(schema)
   return {
     properties: schemaProperties.reduce((oldSchema, schemaKey) => {
       return {
         ...oldSchema,
         [schemaKey]: {
           title: schema[schemaKey].title,
-          cellRenderer: ({cellData, rowData}) => {
-            return (
-              formatCompanyValue(schema[schemaKey], cellData)
-            )
+          cellRenderer: ({ cellData, rowData }) => {
+            return formatCompanyValue(schema[schemaKey], cellData)
           },
-        }
+        },
       }
-    }, {})
-  };
-};
+    }, {}),
+  }
+}
+
+const tableLength = 5
+const initialState = {
+  companies: [],
+  schema: {},
+  tableLength: tableLength,
+  currentPage: 1,
+  slicedData: [],
+  currentItemFrom: 1,
+  currentItemTo: tableLength,
+}
 
 class AssignedCompanies extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.state = {
-      companies: [],
-      schema: {},
-      tableLength: 5,
-      currentPage: 1,
-      slicedData: [],
-      currentItemFrom: 1,
-      currentItemTo: 5,
-    }
+    this.state = initialState
 
     this.handleNextClick = this.handleNextClick.bind(this)
     this.handlePrevClick = this.handlePrevClick.bind(this)
     this.goToPage = this.goToPage.bind(this)
+    this.handleRowsChange = this.handleRowsChange.bind(this)
   }
 
   componentDidMount() {
     axios({
-      url: "/_v/getAssignedCompanies",
-      method: 'get'
-    }).then(response => {
-      const companies = response.data?.companies || [];
-      this.setState({
-        companies,
-        slicedData: (companies).slice(0, this.state.tableLength),
-        schema: response.data?.schema || {},
-      });
-    }).catch(console.error);
+      url: '/_v/getAssignedCompanies',
+      method: 'get',
+    })
+      .then(response => {
+        const companies = response.data?.companies || []
+        this.setState({
+          companies,
+          slicedData: companies.slice(0, this.state.tableLength),
+          schema: response.data?.schema || {},
+        })
+      })
+      .catch(console.error)
   }
-
 
   handleNextClick() {
     const newPage = this.state.currentPage + 1
@@ -126,30 +135,49 @@ class AssignedCompanies extends Component {
     })
   }
 
+  handleRowsChange(e, value) {
+    const currentItemTo = parseInt(value)
+    const slicedData = this.state.companies.slice(
+      this.state.currentItemFrom,
+      currentItemTo
+    )
+    this.setState({
+      tableLength: parseInt(value),
+      currentItemTo,
+      slicedData,
+    })
+  }
+
   render() {
-    return <Table
-      schema={getJsonSchema(this.state.schema)}
-      items={this.state.slicedData}
-      emptyStateLabel={<FormattedMessage id="store/assignedCompanies.emptyStateLabel"/>}
-      pagination={{
-        onNextClick: this.handleNextClick,
-        onPrevClick: this.handlePrevClick,
-        currentItemFrom: this.state.currentItemFrom,
-        currentItemTo: this.state.currentItemTo,
-        textShowRows: <FormattedMessage id="store/assignedCompanies.showRows"/>,
-        textOf: <FormattedMessage id="store/assignedCompanies.of"/>,
-        totalItems: this.state.companies.length,
-        rowsOptions: [5, 10, 15, 25],
-      }}
-      fullWidth={true}
-    />
+    const { headerConfig } = this.props
+    return (
+      <ContentWrapper {...headerConfig}>
+        {() => (
+          <Table
+            schema={getJsonSchema(this.state.schema)}
+            items={this.state.slicedData}
+            emptyStateLabel={
+              <FormattedMessage id="store/assignedCompanies.emptyStateLabel" />
+            }
+            pagination={{
+              onNextClick: this.handleNextClick,
+              onPrevClick: this.handlePrevClick,
+              currentItemFrom: this.state.currentItemFrom,
+              currentItemTo: this.state.currentItemTo,
+              onRowsChange: this.handleRowsChange,
+              textShowRows: (
+                <FormattedMessage id="store/assignedCompanies.showRows" />
+              ),
+              textOf: <FormattedMessage id="store/assignedCompanies.of" />,
+              totalItems: this.state.companies.length,
+              rowsOptions: [5, 10, 15, 25],
+            }}
+            fullWidth={true}
+          />
+        )}
+      </ContentWrapper>
+    )
   }
 }
 
-const AssignedCompaniesWithRoute = () => (
-  <Fragment>
-    <Route exact path="/assigned-companies" component={AssignedCompanies}/>
-  </Fragment>
-)
-
-export default AssignedCompaniesWithRoute
+export default AssignedCompanies

@@ -1,8 +1,8 @@
 {
+  "store/assignedCompanies.link": "My companies",
   "store/assignedCompanies.emptyStateLabel": "No Data",
   "store/assignedCompanies.showRows": "Show rows",
   "store/assignedCompanies.yesLabel": "Yes",
   "store/assignedCompanies.noLabel": "No",
-  "store/assignedCompanies.assignedCompaniesBtn": "Agenți de Vânzări",
   "store/assignedCompanies.of": "Of"
 }

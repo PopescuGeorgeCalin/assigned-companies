@@ -1,3 +1,3 @@
-Assignee - VTEX 1st party app
+Assigned Companies - VTEX 1st party app
 
 Renders info from Masterdata in My Account.

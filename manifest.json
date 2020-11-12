@@ -6,9 +6,7 @@
   "mustUpdateAt": "2019-10-01",
   "categories": [],
   "defaultLocale": "ro-RO",
-  "registries": [
-    "smartcheckout"
-  ],
+  "registries": ["smartcheckout"],
   "scripts": {
     "postreleasy": "vtex publish --public"
   },
@@ -65,6 +63,7 @@
   "dependencies": {
     "vtex.css-handles": "0.x",
     "vtex.my-account": "1.x",
+    "vtex.my-account-commons": "1.x",
     "vtex.store-graphql": "2.x",
     "vtex.styleguide": "9.x"
   },
